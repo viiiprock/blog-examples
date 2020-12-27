@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { ListItem, ListItemText, ListItemIcon, Icon } from "@material-ui/core";
 import { StatusEnum, STATUS_COLORS, STATUS_ICONS } from "common/constants";
 import { TaskListItemProps } from "types";
@@ -34,4 +34,4 @@ function TaskListItem({ children, status, taskId }: TaskListItemProps) {
   );
 }
 
-export default TaskListItem;
+export default memo(TaskListItem);
