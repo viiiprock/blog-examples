@@ -1,21 +1,19 @@
-import { ChangeEvent, useState } from "react"
-import { AppBar, Typography, Input, Toolbar } from "@material-ui/core"
-import { useStyles } from "style/main"
-import { TaskPropsType } from "types"
-import { StatusEnum } from "common/constants"
+import { ChangeEvent, useState } from "react";
+import { Input } from "@material-ui/core";
+import { TaskPropsType } from "types";
+import { StatusEnum } from "common/constants";
 
 interface TaskInputProps {
-  onAdd: (task: TaskPropsType) => void
-  isLoading?: boolean
+  onAdd: (task: TaskPropsType) => void;
+  isLoading?: boolean;
 }
 
 function TaskInput({ onAdd, isLoading = false }: TaskInputProps) {
-  const classes = useStyles()
-  const [taskTitle, setTaskTitle] = useState("")
+  const [taskTitle, setTaskTitle] = useState("");
 
   const handleChangeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    return setTaskTitle(e.currentTarget.value)
-  }
+    return setTaskTitle(e.currentTarget.value);
+  };
 
   const addTask = () => {
     if (onAdd && taskTitle) {
@@ -23,42 +21,35 @@ function TaskInput({ onAdd, isLoading = false }: TaskInputProps) {
         id: Date.now(),
         title: taskTitle,
         status: StatusEnum.TODO,
-      })
+      });
     }
     // reset title
-    setTaskTitle("")
-  }
+    setTaskTitle("");
+  };
 
   return (
-    <AppBar position="relative">
-      <Toolbar>
-        <Typography variant="h6" className={classes.title}>
-          TODO LIST
-        </Typography>
-
-        <form
-          className={classes.form}
-          onSubmit={(e) => {
-            e.preventDefault()
-            addTask()
-          }}
-        >
-          <Input
-            className={classes.input}
-            fullWidth
-            type="text"
-            placeholder={isLoading ? "Adding todo..." : "Add new todo"}
-            disabled={isLoading}
-            required
-            value={taskTitle}
-            onChange={handleChangeTitle}
-            role="add"
-            tabIndex={-1}
-          />
-        </form>
-      </Toolbar>
-    </AppBar>
-  )
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        addTask();
+      }}
+    >
+      <Input
+        fullWidth
+        type="text"
+        placeholder={isLoading ? "Adding todo..." : "Add new todo"}
+        disabled={isLoading}
+        required
+        value={taskTitle}
+        onChange={handleChangeTitle}
+        role="add"
+        tabIndex={-1}
+        style={{
+          padding: "1rem",
+        }}
+      />
+    </form>
+  );
 }
 
-export default TaskInput
+export default TaskInput;

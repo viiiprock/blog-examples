@@ -1,16 +1,13 @@
-import { Container, Card, CardContent, List, ListItem } from "@material-ui/core";
+import { Container, List, ListItem } from "@material-ui/core";
 import { ADD_TODO, TODOS } from "queries/endpoints";
 import TaskInput from "components/TaskInput";
 import TaskListItem from "components/TaskListItem.memo";
 import { useCallback, useEffect, useState } from "react";
-import { useStyles } from "style/main";
 import { TaskPropsType } from "types";
 import { useFetch } from "queries/hooks/useFetch";
 import { usePost } from "queries/hooks/usePost";
 
 function UseCallback() {
-  const classes = useStyles();
-
   const [tasks, setTasks] = useState<TaskPropsType[]>([]);
   const [fetchData, { loading, error }] = useFetch(TODOS);
 
@@ -39,27 +36,23 @@ function UseCallback() {
 
   return (
     <Container maxWidth="md">
-      <Card className={classes.root}>
-        <TaskInput isLoading={createLoading} onAdd={handleAddTask} />
+      <TaskInput isLoading={createLoading} onAdd={handleAddTask} />
 
-        <CardContent>
-          {loading && "Loading data..."}
-          {error && error.message}
-          <List className={classes.taskList}>
-            {tasks.length <= 0 ? (
-              <ListItem>Empty!!!</ListItem>
-            ) : (
-              tasks.map((task: TaskPropsType) => {
-                return (
-                  <TaskListItem key={task.id} status={task.status} taskId={task.id}>
-                    {task.title}
-                  </TaskListItem>
-                );
-              })
-            )}
-          </List>
-        </CardContent>
-      </Card>
+      {loading && "Loading data..."}
+      {error && error.message}
+      <List>
+        {tasks.length <= 0 ? (
+          <ListItem>Empty!!!</ListItem>
+        ) : (
+          tasks.map((task: TaskPropsType) => {
+            return (
+              <TaskListItem key={task.id} status={task.status} taskId={task.id}>
+                {task.title}
+              </TaskListItem>
+            );
+          })
+        )}
+      </List>
     </Container>
   );
 }
