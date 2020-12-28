@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { useState } from "react";
 import { ListItem, ListItemText, ListItemIcon, Icon } from "@material-ui/core";
 import { StatusEnum, STATUS_COLORS, STATUS_ICONS } from "common/constants";
 import { TaskListItemProps } from "types";
