@@ -1,14 +1,14 @@
 import { Container, Card, CardContent, List, ListItem } from "@material-ui/core";
 import { ADD_TODO, TODOS } from "queries/endpoints";
 import TaskInput from "components/TaskInput";
-import TaskListItem from "components/TaskListItem";
-import { useEffect, useState } from "react";
+import TaskListItem from "components/TaskListItem.memo";
+import { useCallback, useEffect, useState } from "react";
 import { useStyles } from "style/main";
 import { TaskPropsType } from "types";
 import { useFetch } from "queries/hooks/useFetch";
 import { usePost } from "queries/hooks/usePost";
 
-function Home() {
+function UseCallback() {
   const classes = useStyles();
 
   const [tasks, setTasks] = useState<TaskPropsType[]>([]);
@@ -22,13 +22,16 @@ function Home() {
 
   const [postData, { loading: createLoading, error: createError }] = usePost(ADD_TODO);
 
-  const handleAddTask = async (task: TaskPropsType) => {
-    // update local
-    const updateTasks: TaskPropsType[] = [task, ...tasks];
-    setTasks(updateTasks);
+  const handleAddTask = useCallback(
+    async (task: TaskPropsType) => {
+      // update local
+      const updateTasks: TaskPropsType[] = [task, ...tasks];
+      setTasks(updateTasks);
 
-    return postData(task);
-  };
+      return postData(task);
+    },
+    [tasks],
+  );
 
   if (createError) {
     alert(`Create unsuccessful: ${createError}`);
@@ -61,4 +64,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default UseCallback;
